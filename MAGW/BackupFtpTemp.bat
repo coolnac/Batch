@@ -13,19 +13,19 @@
 	IF NOT EXIST "%ftptemp%" (
 	GOTO FINISH
 	) ELSE (
-	>>%log% ECHO %StartTime% �}�l�ƥ� %ftptemp% �� %tofolder%
-	:: /NJH �L���D ; /NJS �L�K�n ; /NS �L�j�p ; /NC �L���� ; /NP �L�i�� ; /MOV �����ɮרñq�ӷ��ݧR�� ; /MINAGE �ư����w�Ѽƫ᪺�ɮ�
+	>>%log% ECHO %StartTime% 開始備份 %ftptemp% 到 %tofolder%
+	:: /NJH 無標題 ; /NJS 無摘要 ; /NS 無大小 ; /NC 無類型 ; /NP 無進度 ; /MOV 移動檔案並從來源端刪除 ; /MINAGE 排除指定天數後的檔案
 	ROBOCOPY "%ftptemp%" "%tofolder%" /mir /mt:80 /NJH /NJS /NS /NC /NP /MOV /MINAGE:1 >> %log%
 	)
 
 :FINISH
-	IF NOT EXIST "%tofolder%" ECHO ��������ƥ��A�{���Y�N�����C>>%log% & EXIT
+	IF NOT EXIST "%tofolder%" ECHO 未做任何備份，程式即將結束。>>%log% & EXIT
 
 	attrib -s -a -h %tofolder% >> %log%
 	SET "EndTime=!time!"
-	>>%log% ECHO %EndTime% �ƥ������C
+	>>%log% ECHO %EndTime% 備份完成。
 
 ENDLOCAL
-CHOICE /C QP /M "3 ����۰ʵ���...." /T 3 /D Q
+CHOICE /C QP /M "3 秒後自動結束...." /T 3 /D Q
 	IF ERRORLEVEL 2 TEIMEOUT -1
 EXIT
